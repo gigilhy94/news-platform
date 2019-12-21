@@ -1,0 +1,6 @@
+@import "src/color.scss";
+
+nav {
+    background: map-get($colors, header-background);
+    color: map-get($colors, header-text);
+}
