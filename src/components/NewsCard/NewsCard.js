@@ -10,7 +10,7 @@ class NewsCard extends Component {
     render() {
         return (
             <div>
-                <Card style={{ width: '18rem' }}>
+                <Card style={{ width: '18rem' }} onClick={() => window.open(this.props.link)}>
                     <Card.Header>
                         {this.props.name}
                         {this.props.date}

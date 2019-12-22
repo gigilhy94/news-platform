@@ -9,13 +9,9 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      news: [],
-      list: []
+      news: []
     }
-  }
-
-  test() {
-    alert('test');
+    this.filterNews = this.filterNews.bind(this);
   }
 
   componentDidMount() {
@@ -26,47 +22,37 @@ class App extends Component {
       }
     }).then(res => {
       const news = res.data.articles;
-
-      const list = [
-        "apple",
-        "banana",
-        "cat"
-      ];
-
-
       this.setState({ 
-        news: news,
-        list: list
+        news: news
       });
       console.log(this.state.news);
     }).catch(err => {
       console.log(err);
     })
   }
-  
-  filterList(e) {
-    debugger;
-    let items = this.state.list;
+
+  filterNews(e) {
+    let items = this.state.news;
+    let keywords = e.target.value.toLowerCase();
     items = items.filter(item => {
-        return item.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+        return (item.title.toLowerCase().search(keywords) !== -1 || item.description.toLowerCase().search(keywords) !== -1);
     });
-    this.setState({items: items});
+    this.setState({news: items});
   }
 
   render() {
     return (
       <div className="App">
-        <SearchBar onClick={() => this.test()} filter={() => this.filterList()}/>
-        <div>
-            {
-                this.state.list.map(item => {
-                    return <div key={item}>{item}</div>
-                })
-            }
-        </div>
-
+        <SearchBar filterNews={(e) => this.filterNews(e)}/>
         { 
-          this.state.news.map(item => <NewsCard title={item.title} description={item.description} image={item.urlToImage} name={item.source.name} date={item.publishedAt}></NewsCard>)
+          this.state.news.map(item => 
+            <NewsCard title={item.title} 
+              description={item.description} 
+              image={item.urlToImage} 
+              name={item.source.name} 
+              date={item.publishedAt} 
+              link={item.url}>
+            </NewsCard>)
         }
 
         {/* <header className="App-header">

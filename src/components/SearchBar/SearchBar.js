@@ -5,42 +5,17 @@ import './SearchBar.scss';
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            initialItems: [],
-            items: []
-        };
-    }
-
-    // filterList = e => {
-    //     let items = this.state.initialItems;
-    //     items = items.filter(item => {
-    //         return item.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
-    //     });
-    //     this.setState({items: items});
-    // }
-
-    componentWillMount = () => {
-        this.setState({
-            initialItems: this.props.content,
-            items: this.props.content
-        });
     }
 
     testFilter(e) {
-        debugger;
-        this.props.filter(e);
+        this.props.filterNews(e);
     }
 
     render() {
         return (
             <nav className="navbar">
                 US News
-
-
-                <form>
-                    <input type="text" placeholder="" onChange={(e) => this.testFilter(e)}></input>
-                </form>
+                <input type="text" placeholder="" onChange={(e) => this.props.filterNews(e)}></input>
                 {/* <InputGroup className="mb-3">
                     <FormControl
                     placeholder="Recipient's username"
@@ -48,18 +23,10 @@ class SearchBar extends Component {
                     aria-describedby="basic-addon2"
                     />
                     <InputGroup.Append>
-                        <Button variant="outline-secondary" onClick={() => this.props.onClick()}>Button</Button>
+                        <Button variant="outline-secondary" onClick={() => this.props.onClick('search bar')}>Button</Button>
                     </InputGroup.Append>
                 </InputGroup> */}
-                {/* <div>
-                    {
-                        this.state.items.map(item => {
-                            return <div key={item}>{item}</div>
-                        })
-                    }
-                </div> */}
             </nav>
-
         );
     }
 }
