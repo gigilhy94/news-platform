@@ -9,14 +9,14 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      news: []
+      news: [],
+      list: []
     }
   }
 
   test() {
     alert('test');
   }
-
 
   componentDidMount() {
     axios.get(`https://newsapi.org/v2/everything`, {
@@ -26,18 +26,45 @@ class App extends Component {
       }
     }).then(res => {
       const news = res.data.articles;
-      this.setState({ news });
+
+      const list = [
+        "apple",
+        "banana",
+        "cat"
+      ];
+
+
+      this.setState({ 
+        news: news,
+        list: list
+      });
       console.log(this.state.news);
     }).catch(err => {
       console.log(err);
     })
   }
-
+  
+  filterList(e) {
+    debugger;
+    let items = this.state.list;
+    items = items.filter(item => {
+        return item.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+    });
+    this.setState({items: items});
+  }
 
   render() {
     return (
       <div className="App">
-        <SearchBar onClick={() => this.test()} />
+        <SearchBar onClick={() => this.test()} filter={() => this.filterList()}/>
+        <div>
+            {
+                this.state.list.map(item => {
+                    return <div key={item}>{item}</div>
+                })
+            }
+        </div>
+
         { 
           this.state.news.map(item => <NewsCard title={item.title} description={item.description} image={item.urlToImage} name={item.source.name} date={item.publishedAt}></NewsCard>)
         }
