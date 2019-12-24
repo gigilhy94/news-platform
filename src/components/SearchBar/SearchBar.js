@@ -7,15 +7,11 @@ class SearchBar extends Component {
         super(props);
     }
 
-    testFilter(e) {
-        this.props.filterNews(e);
-    }
-
     render() {
         return (
             <nav className="navbar">
                 US News
-                <input type="text" placeholder="" onChange={(e) => this.props.filterNews(e)}></input>
+                <input type="text" placeholder="" onChange={(e) => this.props.filterNews(e.target.value)}></input>
                 {/* <InputGroup className="mb-3">
                     <FormControl
                     placeholder="Recipient's username"
