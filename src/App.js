@@ -5,8 +5,10 @@ import SearchBar from './components/SearchBar/SearchBar';
 import NewsCard from './components/NewsCard/NewsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 
+const maxNews = 100;  // maximun result can be retrieved
+const perPage = 9;
 let page = 0;
-let totalItems = 0;
+let accmulate = 0;
 
 class App extends Component {
   constructor(props){
@@ -22,25 +24,29 @@ class App extends Component {
 
   getNews() {
     page++;
-    axios.get(`https://newsapi.org/v2/everything`, {
-      params: {
-        // domains: 'wsj.com,nytimes.com',
-        domains: 'wsj.com',
-        apiKey: '741a1f03a9bc470a8761aba57ee24731',
-        pageSize: 50,
-        page: page
-      }
-    }).then(res => {
-      totalItems = res.data.totalResults;
-      const news = this.state.news.concat(res.data.articles);
-      this.setState({
-        news: news,
-        filteredList: this.getFilteredList()
-      });
-      console.log(this.state.news);
-    }).catch(err => {
-      console.log(err);
-    })
+    let remainItems = maxNews - accmulate;
+    if (remainItems > 0) {
+      let numOfItems = (remainItems >= perPage)? perPage : remainItems;
+      axios.get(`https://newsapi.org/v2/everything`, {
+        params: {
+          domains: 'wsj.com,nytimes.com',
+          apiKey: '741a1f03a9bc470a8761aba57ee24731',
+          pageSize: numOfItems,
+          page: page
+        }
+      }).then(res => {
+        if (res.data.totalResults < maxNews) maxNews = res.data.totalResults;
+        accmulate += res.data.articles.length;
+        const news = this.state.news.concat(res.data.articles);
+        this.setState({
+          news: news,
+          filteredList: this.getFilteredList()
+        });
+        console.log(this.state.news);
+      }).catch(err => {
+        console.log(err);
+      })
+    }
   }
 
   filterNews(val) {
@@ -61,18 +67,21 @@ class App extends Component {
     return (
       <div className="App">
         <SearchBar filterNews={(val) => this.filterNews(val)}/>
-        <InfiniteScroll pageStart={page} loadMore={this.getNews} hasMore={(page === 0 || (totalItems > this.state.news.length && this.state.news.length < 100))} threshold={50}>
-          { 
-            this.state.filteredList.map((item, index) => 
-              <NewsCard key={index}
-                title={item.title} 
-                description={item.description} 
-                image={item.urlToImage} 
-                name={item.source.name} 
-                date={item.publishedAt} 
-                link={item.url}>
-              </NewsCard>)
-          }
+        <InfiniteScroll pageStart={page} loadMore={this.getNews} hasMore={(page === 0 || accmulate < maxNews)} threshold={50}>
+          <div className="container">
+            { 
+              this.state.filteredList.map((item, index) => 
+                <NewsCard key={index}
+                  title={item.title} 
+                  description={item.description} 
+                  image={item.urlToImage} 
+                  name={item.source.name} 
+                  date={item.publishedAt} 
+                  link={item.url}>
+                </NewsCard>
+              )
+            }
+          </div>
         </InfiniteScroll>
       </div>
     );

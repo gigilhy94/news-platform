@@ -1,0 +1,13 @@
+.card {
+    min-width: auto;
+    height: 550px;
+    @media only screen and (min-width: 1200px) {
+        & {
+            width: 18rem
+        }
+    }
+}
+
+.card-container {
+    padding: 10px;
+}
