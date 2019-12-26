@@ -6,14 +6,15 @@ import NewsCard from './components/NewsCard/NewsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 
 const perPage = 10;
-let maxNews = 100;
-let page = 0;
-let accmulate = 0;
 
 class App extends Component {
   constructor(props){
     super(props);
     this.news = [];
+    this.maxNews = 100;
+    this.page = 0;
+    this.accmulate = 0;
+
     this.state = {
       keywords: '',
       filteredList: []
@@ -23,14 +24,14 @@ class App extends Component {
   }
 
   getNews() {
-    page++;
+    this.page++;
     let numOfItems = perPage;
-    let remainItems = maxNews - accmulate;
-    let currentPage = page;
+    let remainItems = this.maxNews - this.accmulate;
+    let currentPage = this.page;
     if (remainItems > 0) {
       if (remainItems < perPage) {
         numOfItems = remainItems;
-        currentPage = maxNews/numOfItems;
+        currentPage = this.maxNews/numOfItems;
       }
       axios.get(`https://newsapi.org/v2/everything`, {
         params: {
@@ -40,8 +41,8 @@ class App extends Component {
           page: currentPage
         }
       }).then(res => {
-        if (res.data.totalResults < maxNews) maxNews = res.data.totalResults;
-        accmulate += res.data.articles.length;
+        if (res.data.totalResults < this.maxNews) this.maxNews = res.data.totalResults;
+        this.accmulate += res.data.articles.length;
         this.news = this.news.concat(res.data.articles);
         this.setState({
           filteredList: this.getFilteredList()
@@ -69,7 +70,7 @@ class App extends Component {
     return (
       <div className="App">
         <SearchBar filterNews={(val) => this.filterNews(val)}/>
-        <InfiniteScroll pageStart={0} loadMore={this.getNews} hasMore={(page === 0 || accmulate < maxNews)} threshold={50}>
+        <InfiniteScroll pageStart={0} loadMore={this.getNews} hasMore={(this.page === 0 || this.accmulate < this.maxNews)} threshold={50}>
           <div className="card-section">
             { 
               this.state.filteredList.map((item, index) => 
