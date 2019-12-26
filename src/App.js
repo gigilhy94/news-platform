@@ -5,8 +5,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import NewsCard from './components/NewsCard/NewsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 
-
-const perPage = 9;
+const perPage = 10;
 let maxNews = 100;
 let page = 0;
 let accmulate = 0;
