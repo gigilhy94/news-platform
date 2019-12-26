@@ -1,6 +1,7 @@
+@import "src/color.scss";
 .card {
     min-width: auto;
-    height: 550px;
+    height: 600px;
     @media only screen and (min-width: 1200px) {
         & {
             width: 18rem
@@ -9,5 +10,45 @@
 }
 
 .card-container {
-    padding: 10px;
+    padding: 10px 0 0 10px;
+}
+
+.card-title {
+    color: map-get($colors, card-title);
+}
+
+.card-text {
+    color: map-get($colors, card-description);
+}
+
+.header-section.card-header {
+    display: grid;
+    grid-template-columns: 60px auto;
+    background-color: map-get($colors, primary-text);
+}
+
+.header-icon {
+    height: 45px;
+    width: 45px;
+    background-color: map-get($colors, avater-background);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.header-prefix {
+    color: map-get($colors, avater-text-one);
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.header-title {
+    color: map-get($colors, avater-text-two);
+    font-weight: bold;
+}
+
+.header-date {
+    color: map-get($colors, avater-date);
 }

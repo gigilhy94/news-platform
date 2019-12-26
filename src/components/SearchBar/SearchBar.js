@@ -1,28 +1,20 @@
 import React, { Component } from "react";
-import { Button, FormControl, InputGroup, Navbar, } from 'react-bootstrap';
+import { FaSearch } from "react-icons/fa";
 import './SearchBar.scss';
+import { Navbar } from "react-bootstrap";
 
 class SearchBar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
-            <nav className="navbar">
+            <Navbar className="nav-section">
                 US News
-                <input type="text" placeholder="" onChange={(e) => this.props.filterNews(e.target.value)}></input>
-                {/* <InputGroup className="mb-3">
-                    <FormControl
-                    placeholder="Recipient's username"
-                    aria-label="Recipient's username"
-                    aria-describedby="basic-addon2"
-                    />
-                    <InputGroup.Append>
-                        <Button variant="outline-secondary" onClick={() => this.props.onClick('search bar')}>Button</Button>
-                    </InputGroup.Append>
-                </InputGroup> */}
-            </nav>
+                <Navbar.Collapse className="justify-content-end">
+                    <div className="input-section">
+                        <span><FaSearch className="icon"/></span>
+                        <span><input placeholder="Search" onChange={(e) => this.props.filterNews(e.target.value)}></input></span>
+                    </div>
+                </Navbar.Collapse>
+            </Navbar>
         );
     }
 }

@@ -1,6 +1,35 @@
 @import "src/color.scss";
 
-nav {
+.navbar.nav-section {
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    position: fixed;
     background: map-get($colors, header-background);
-    color: map-get($colors, header-text);
+    color: map-get($colors, primary-text);
+    font-size: 1rem;
+    padding: 10px 10px 10px 20px
+}
+
+.input-section {
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    span {
+        padding-left: 15px;
+    }
+    .icon {
+        margin-bottom: 2px;
+    }
+    input {
+        border: none;
+        background: transparent;
+        padding-top: 5px;
+    }
+    input:focus {
+        outline: none;
+    }
+    ::placeholder {
+        color: map-get($colors, search-placeholder);
+    }
 }
